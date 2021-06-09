@@ -1,0 +1,78 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#book-list {
+    display: grid;
+    width: 1200px;
+    margin: 60px;
+    grid-template-columns: repeat(5, 1fr);
+    font-size: 2em;
+    column-gap: 10px;
+    text-align: center;
+}
+
+.column {
+    border: 3px solid rgb(119, 17, 17);
+    background-color: rgb(101, 175, 101);
+
+}
+
+#add-book {
+    height: 50px;
+    font-size: 1em;
+    grid-column: 1/6;
+    margin: 10px 3px;
+    cursor: pointer;
+}
+
+.button-container {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(3, 3, 3, 0.74);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.add-form {
+    position: fixed;
+    /*top: 200px;
+    left: 500px;*/
+    width: 650px;
+    height: 700px;
+    background-color: rgb(179, 179, 179);
+    display: flex;
+    align-items: stretch;
+    flex-direction: column;
+    padding: 30px;
+    font-size: 1.4em;
+}
+
+#buttonsContainer {
+    display: flex;
+    justify-content: space-between;
+}
+
+#cancelButton {
+    width: 40%;
+    height: auto;
+    font-size: 1.5em;
+    padding: 15px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+#pushBookButton {
+    width: 40%;
+    height: auto;
+    font-size: 1.5em;
+    padding: 15px;
+    border-radius: 20px;
+    cursor: pointer;
+}
