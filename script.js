@@ -84,7 +84,7 @@ function addBookToLibrary(title, author, pages, date, score) {
 
 
 addBookButton.addEventListener('click', () => {
-    let formContainer = document.createElement('div');
+    let formContainer = document.createElement('form');
     formContainer.className = 'form-container';
     body.appendChild(formContainer);
     let addForm = document.createElement('div');
@@ -94,9 +94,11 @@ addBookButton.addEventListener('click', () => {
     function createInput(labelName, inputNumber, inputType) {
         let label = document.createElement('label');
         label.setAttribute('for', inputNumber);
+        label.className = 'label';
         label.textContent = labelName;
 
         let input = document.createElement('input');
+        input.className = 'input';
         input.setAttribute('id', inputNumber);
         input.setAttribute('type', inputType);
 
@@ -106,7 +108,7 @@ addBookButton.addEventListener('click', () => {
         }
         
         addForm.appendChild(label);
-        addForm.appendChild(document.createElement('br'));
+        //addForm.appendChild(document.createElement('br'));
         addForm.appendChild(input);   
         addForm.appendChild(document.createElement('br')); 
     }
@@ -114,9 +116,15 @@ addBookButton.addEventListener('click', () => {
     createInput('Libro', 'input1', 'text');
     createInput('Autor', 'input2', 'text');
     createInput('Páginas', 'input3', 'number');
-    createInput('Fecha de lectura', 'input4', 'date');
+    createInput('Fecha de lectura', 'input4', 'text');
+    /*createInput('Calificación', 'input5', 'range');*/
 
-    
+    let calificationLabel = document.createElement('label');
+    calificationLabel.textContent = 'Calificación';
+    calificationLabel.className = 'label';
+    addForm.appendChild(calificationLabel);
+
+    addForm.appendChild(document.createElement('br'));
 
     let rangeDiv = document.createElement('div');
     rangeDiv.className = 'range';
@@ -181,7 +189,8 @@ addBookButton.addEventListener('click', () => {
         slideValue.classList.remove("show");
     });
 
-    
+    //addForm.appendChild(document.createElement('br'));
+    addForm.appendChild(document.createElement('br'));
 
 
 

@@ -4,12 +4,30 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-image: url(background.jpg);
+    background-repeat: no-repeat;
+    background-size: 1950px;
+}
+
+#title {
+    text-align: center;
+    margin: 0 auto;
+    font-size: 3em;
+    color: white;
 }
 
 #book-list {
+    background-color: rgba(4, 22, 24, 0.52);
     display: flex;
     flex-direction: column;
     align-items: center;
+    color: rgb(255, 255, 255);
+    margin: 0 auto;
+    width: 1300px;
     /*display: grid;
     width: 1200px;
     margin: 60px;
@@ -21,20 +39,20 @@
 
 .description-row {
     display: grid;
-    width: 1200px;
+    width: 1300px;
     /*margin: 60px;*/
     grid-template-columns: repeat(5, 3fr) 1fr;;
-    font-size: 2em;
+    font-size: 1.5em;
     column-gap: 10px;
     text-align: center;
 }
 
 .row {
     display: grid;
-    width: 1200px;
+    width: 1300px;
     margin: 6px;
     grid-template-columns: repeat(5, 3fr) 1fr;;
-    font-size: 2em;
+    font-size: 1.5em;
     column-gap: 10px;
     text-align: center;
     transition: all 250ms ease-in-out;
@@ -64,10 +82,19 @@
 
 #add-book {
     height: 50px;
-    font-size: 1em;
-    grid-column: 1/6;
-    margin: 10px 3px;
+    width: 1200px;
+    font-size: 1.5em;
+    font-weight: bold;
+    grid-column: 1 / 6;
+    margin: 10px 0;
     cursor: pointer;
+    background-color:rgba(0, 119, 255, 0.746);
+    color: rgb(255, 255, 255);
+    transition: background-color 300ms ease-in-out;
+}
+
+#add-book:hover {
+    background-color:rgba(15, 187, 255, 0.89);
 }
 
 .form-container {
@@ -84,17 +111,47 @@
 
 .add-form {
     position: fixed;
-    /*top: 200px;
-    left: 500px;*/
     width: 650px;
-    height: 700px;
-    background-color: rgb(179, 179, 179);
+    height: 850px;
     display: flex;
     align-items: stretch;
     flex-direction: column;
     padding: 30px;
     font-size: 1.4em;
+    background: #4568DC;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #B06AB3, #4568DC);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #B06AB3, #4568DC); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    color: rgb(255, 255, 255);
 }
+
+.label {
+    font-weight: bold;
+}
+
+.input {
+    display: block;
+    color: rgb(3, 0, 0);
+    font-size: 1.2em;
+    margin-top: 10px;
+}
+
+/*#input4 {
+    display: inline-block;
+    width: 300px;
+    height: 300px;
+    font-size: 3rem;
+}*/
+
+.range{
+    height: 80px;
+    /*width: 380px;*/
+    width: 380px;
+    background: #fff;
+    border-radius: 10px;
+    padding: 0 65px 0 45px;
+    box-shadow: 2px 4px 8px rgba(0,0,0,0.1);
+    /*margin: 10px 30px;*/
+  }
 
 #buttonsContainer {
     display: flex;
@@ -119,19 +176,12 @@
     cursor: pointer;
 }
 
-.range > * {
+/*.range > * {
     font-family: 'Poppins', sans-serif;
     z-index: 900;
-}
+}*/
 
-.range{
-  height: 80px;
-  width: 380px;
-  background: #fff;
-  border-radius: 10px;
-  padding: 0 65px 0 45px;
-  box-shadow: 2px 4px 8px rgba(0,0,0,0.1);
-}
+
 .sliderValue{
   position: relative;
   width: 100%;
