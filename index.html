@@ -10,13 +10,38 @@
 <body>
     <h1>Biblioteca</h1>
     <section id="book-list">
-        <span class="column">Libro</span>
-        <span class="column">Autor</span>
-        <span class="column">Páginas</span>
-        <span class="column">Fecha de lectura</span>
-        <span class="column">Calificación</span>
+        <div class="description-row">
+            <p class="column">Libro</p>
+            <p class="column">Autor</p>
+            <p class="column">Páginas</p>
+            <p class="column">Fecha de lectura</p>
+            <p class="column">Calificación</p>
+        </div>
         <button id="add-book">Agregar Libro</button>
+        <!--<div class="range">
+            <div class="sliderValue">
+                <span>100</span>
+            </div>
+            <div class="field">
+                <div class="value left">0</div>
+                <input type="range" min="10" max="200" value="100" steps="1">
+                <div class="value right">200</div>
+            </div>
+        </div> -->
+        
     </section>
-    <script src="script.js"></script>
+    <script src="script.js">
+        /*const slideValue = document.querySelector("span");
+        const inputSlider = document.querySelector("input");
+        inputSlider.oninput = (()=>{
+        let value = inputSlider.value;
+        slideValue.textContent = value;
+        slideValue.style.left = (value/2) + "%";
+        slideValue.classList.add("show");
+        });
+        inputSlider.onblur = (()=>{
+        slideValue.classList.remove("show");
+        });*/
+    </script>
 </body>
 </html>

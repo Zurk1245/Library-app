@@ -15,7 +15,7 @@ function Book(title, author, pages, date, score) {
     } 
 }
 
-function displayLibrary() {
+/*function displayLibrary() {
     library.map(book => {
         let title = document.createElement('p')
         title.textContent = book.title;
@@ -37,6 +37,44 @@ function displayLibrary() {
         score.textContent = book.score;
         bookList.insertBefore(score, addBookButton);
     })
+}*/
+
+function displayLibrary() {
+    if (library.length === 0) return;
+    let bookToDisplay = library[library.length - 1];
+
+    let row = document.createElement('div');
+    row.className = 'row';
+    bookList.insertBefore(row, addBookButton);
+  
+    let title = document.createElement('p')
+    title.textContent = bookToDisplay.title;
+    row.appendChild(title);
+
+    let author = document.createElement('p');
+    author.textContent = bookToDisplay.author;
+    row.appendChild(author);
+
+    let pages = document.createElement('p');
+    pages.textContent = bookToDisplay.pages;
+    row.appendChild(pages);
+
+    let dateOfReading = document.createElement('p');
+    dateOfReading.textContent = bookToDisplay.date;
+    row.appendChild(dateOfReading);
+
+    let score = document.createElement('p');
+    score.textContent = bookToDisplay.score;
+    row.appendChild(score);    
+
+    let deleteButton = document.createElement('button');
+    deleteButton.textContent = 'X';
+    deleteButton.className = 'delete-button';
+    row.appendChild(deleteButton);
+
+    deleteButton.addEventListener('click', () => {
+        bookList.removeChild(row);
+    })  
 }
 
 function addBookToLibrary(title, author, pages, date, score) {
@@ -44,13 +82,14 @@ function addBookToLibrary(title, author, pages, date, score) {
     library.push(bookToAddToTheLibraryList);
 }
 
+
 addBookButton.addEventListener('click', () => {
-    let buttonContainer = document.createElement('div');
-    buttonContainer.className = 'button-container';
-    body.appendChild(buttonContainer);
+    let formContainer = document.createElement('div');
+    formContainer.className = 'form-container';
+    body.appendChild(formContainer);
     let addForm = document.createElement('div');
     addForm.className = 'add-form';
-    buttonContainer.appendChild(addForm);
+    formContainer.appendChild(addForm);
 
     function createInput(labelName, inputNumber, inputType) {
         let label = document.createElement('label');
@@ -72,11 +111,79 @@ addBookButton.addEventListener('click', () => {
         addForm.appendChild(document.createElement('br')); 
     }
 
-    createInput('Libro', 1, 'text');
-    createInput('Autor', 2, 'text');
-    createInput('Páginas', 3, 'number');
-    createInput('Fecha de lectura', 4, 'date');
-    createInput('Calificación', 5, 'range');
+    createInput('Libro', 'input1', 'text');
+    createInput('Autor', 'input2', 'text');
+    createInput('Páginas', 'input3', 'number');
+    createInput('Fecha de lectura', 'input4', 'date');
+
+    
+
+    let rangeDiv = document.createElement('div');
+    rangeDiv.className = 'range';
+    addForm.appendChild(rangeDiv);
+
+    let sliderValue = document.createElement('div');
+    sliderValue.className = 'sliderValue';
+    rangeDiv.appendChild(sliderValue);
+
+    let spanInSliderValue = document.createElement('span');
+    spanInSliderValue.innerHTML = '3';
+    sliderValue.appendChild(spanInSliderValue);
+
+    let field = document.createElement('div');
+    field.className = 'field';
+    rangeDiv.appendChild(field);
+
+    let valueLeft = document.createElement('div');
+    valueLeft.textContent = '1';
+    valueLeft.classList.add('value', 'left');
+    field.appendChild(valueLeft);
+
+    let rangeInput = document.createElement('input');
+    rangeInput.id = 'input';
+    rangeInput.setAttribute('type', 'range');
+    rangeInput.setAttribute('min', '1');
+    rangeInput.setAttribute('max', '5')
+    rangeInput.setAttribute('value', '3');
+    rangeInput.setAttribute('steps', '1');
+    field.appendChild(rangeInput);
+
+    let valueRight = document.createElement('div');
+    valueRight.textContent = '5';
+    valueRight.classList.add('value', 'right');
+    field.appendChild(valueRight);
+
+    const slideValue = document.querySelector("span");
+    const inputSlider = document.getElementById("input");
+    inputSlider.oninput = (()=>{
+        let value = inputSlider.value;
+        slideValue.textContent = value;
+        switch (value) {
+            case '1': 
+                slideValue.style.left = (value*13.2) + "%";
+                break;
+            case '2':
+                slideValue.style.left = (value*18.3) + "%";
+                break;
+            case '3': 
+            slideValue.style.left = (value*19.8) + "%";
+                break;   
+            case '4': 
+            slideValue.style.left = (value*20.6) + "%";
+                break;                           
+            case '5':
+                slideValue.style.left = (value*21.2) + "%";
+                break;
+        }
+        slideValue.classList.add("show");
+    });
+    inputSlider.onblur = (()=>{
+        slideValue.classList.remove("show");
+    });
+
+    
+
+
 
     let buttonsContainer = document.createElement('div');
     buttonsContainer.id = 'buttonsContainer';
@@ -87,20 +194,31 @@ addBookButton.addEventListener('click', () => {
     cancelButton.textContent = 'Cancelar';
     buttonsContainer.appendChild(cancelButton);
     cancelButton.addEventListener('click', () => {
-        body.removeChild(buttonContainer);
+        body.removeChild(formContainer);
     })
 
     let pushBookButton = document.createElement('button');
     pushBookButton.id = 'pushBookButton';
     pushBookButton.textContent = 'Agregar';
     buttonsContainer.appendChild(pushBookButton);
+    pushBookButton.addEventListener('click', () => {
+        let input1 = document.getElementById('input1');
+        let input2 = document.getElementById('input2');
+        let input3 = document.getElementById('input3');
+        let input4 = document.getElementById('input4');
+        let input5 = document.getElementById('input');
+        
+        addBookToLibrary(input1.value, input2.value, input3.value, input4.value, input5.value);
+        displayLibrary();
+        body.removeChild(formContainer);
 
-
+    })
 })
 
 
-addBookToLibrary('Atomic Habits', 'James Clear', 320, '01/03/2021', 3);
 
+addBookToLibrary('Atomic Habits', 'James Clear', 320, '01/03/2021', 3);
+console.log(library);
 displayLibrary();
 
 //const atomicHabits = new Book('Atomic Habits', 'James Clear', 320, '01/03/2021', 3);
