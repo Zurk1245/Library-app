@@ -1,3 +1,23 @@
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+
+
+var firebaseConfig = {
+    apiKey: "AIzaSyD0eNa0NVduxk-lcfw0zi3mOoWoeKCYQ7A",
+    authDomain: "biblioteca-virtual-c4262.firebaseapp.com",
+    projectId: "biblioteca-virtual-c4262",
+    databaseURL: "https://biblioteca-virtual-c4262-default-rtdb.firebaseio.com/",
+    storageBucket: "biblioteca-virtual-c4262.appspot.com",
+    messagingSenderId: "539189863716",
+    appId: "1:539189863716:web:2f05daaff1bf00e8807fb1",
+    measurementId: "G-NGLPR48XVZ",
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+//firebase.analytics();
+
+//console.log(database)
+
 let body = document.querySelector('body');
 let bookList = document.getElementById('book-list');
 let addBookButton = document.getElementById('add-book')
@@ -216,9 +236,20 @@ addBookButton.addEventListener('click', () => {
         let input3 = document.getElementById('input3');
         let input4 = document.getElementById('input4');
         let input5 = document.getElementById('input');
-        
+        //Se agrega el libro al array library
         addBookToLibrary(input1.value, input2.value, input3.value, input4.value, input5.value);
         displayLibrary();
+        //De library se manda a la base de datos
+        // Get a reference to the database service
+        var database = firebase.database().ref('Libros');
+        let book = database.push();
+        book.set({
+            nombre: input1.value,
+            autor: input2.value,
+            páginas: input3.value,
+            fecha_de_lectura: input4.value,   
+            calificación: input5.value,
+        });
         body.removeChild(formContainer);
 
     })
