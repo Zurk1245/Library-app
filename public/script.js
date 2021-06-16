@@ -1,7 +1,3 @@
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-
-
 var firebaseConfig = {
     apiKey: "AIzaSyD0eNa0NVduxk-lcfw0zi3mOoWoeKCYQ7A",
     authDomain: "biblioteca-virtual-c4262.firebaseapp.com",
@@ -14,13 +10,33 @@ var firebaseConfig = {
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-//firebase.analytics();
-
-//console.log(database)
 
 let body = document.querySelector('body');
 let bookList = document.getElementById('book-list');
-let addBookButton = document.getElementById('add-book')
+let addBookButton = document.getElementById('add-book');
+let signInButton = document.getElementById('signInButton');
+
+signInButton.addEventListener('click', e => {
+    let container = document.createElement('div');
+    container.id = 'signInContainer';
+    let nav = document.getElementById('nav');
+    body.insertBefore(container, nav);
+    container.innerHTML = `<div id="signInForm">
+    <button id="closeButton">x</button>
+    <h1 id="signInTitle">Inicie sesión</h1> 
+    <button id="googleButton">Iniciar sesión con Google</button>
+    </div>`;
+
+    let closeButton = document.getElementById('closeButton');
+    closeButton.addEventListener('click', () => {
+        body.removeChild(container);
+    })
+
+    let googleButton = document.getElementById('googleButton');
+    googleButton.addEventListener('click', {
+
+    })
+});
 
 let library = [];
 
@@ -94,6 +110,12 @@ function displayLibrary() {
 
     deleteButton.addEventListener('click', () => {
         bookList.removeChild(row);
+        //Borrar datos del libro en la base de datos
+        //let bookInDataBase = firebase.ref().child('')
+        //Hay que ver como se selecciona el libro en cuestión
+        //Para borrarlo
+        //bookInDataBase.remove();
+
     })  
 }
 
@@ -128,7 +150,6 @@ addBookButton.addEventListener('click', () => {
         }
         
         addForm.appendChild(label);
-        //addForm.appendChild(document.createElement('br'));
         addForm.appendChild(input);   
         addForm.appendChild(document.createElement('br')); 
     }
@@ -137,7 +158,6 @@ addBookButton.addEventListener('click', () => {
     createInput('Autor', 'input2', 'text');
     createInput('Páginas', 'input3', 'number');
     createInput('Fecha de lectura', 'input4', 'text');
-    /*createInput('Calificación', 'input5', 'range');*/
 
     let calificationLabel = document.createElement('label');
     calificationLabel.textContent = 'Calificación';
@@ -209,10 +229,7 @@ addBookButton.addEventListener('click', () => {
         slideValue.classList.remove("show");
     });
 
-    //addForm.appendChild(document.createElement('br'));
     addForm.appendChild(document.createElement('br'));
-
-
 
     let buttonsContainer = document.createElement('div');
     buttonsContainer.id = 'buttonsContainer';
