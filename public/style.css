@@ -34,9 +34,9 @@ body {
   align-items: center;
 }
 
-.container > #signInButton {
-  width: 150px;
-  height: 50px;
+.container > .button {
+  /*width: 150px;
+  height: 65px;*/
   margin-right: 50px;
   background-color:rgba(0, 119, 255, 0.746);
   color: white;
@@ -46,9 +46,19 @@ body {
   transition: color, background-color 250ms ease-out;
 }
 
-#signInButton:hover {
+.button:hover {
   background-color: rgb(231, 231, 231);
   color: rgb(0, 0, 0);
+}
+
+#signInButton {
+    font-size: 1.2em;
+    padding: 7px 30px;
+}
+
+#logOutButton {
+    font-size: 1.2em;
+    padding: 7px 30px;  
 }
 
 /*Sign in pop up*/

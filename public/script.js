@@ -10,33 +10,66 @@ var firebaseConfig = {
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 
 let body = document.querySelector('body');
 let bookList = document.getElementById('book-list');
 let addBookButton = document.getElementById('add-book');
 let signInButton = document.getElementById('signInButton');
+let logOutButton = document.getElementById('logOutButton');
+
+let currentUserId;
+
+let auth = firebase.auth();
 
 signInButton.addEventListener('click', e => {
-    let container = document.createElement('div');
-    container.id = 'signInContainer';
-    let nav = document.getElementById('nav');
-    body.insertBefore(container, nav);
-    container.innerHTML = `<div id="signInForm">
-    <button id="closeButton">x</button>
-    <h1 id="signInTitle">Inicie sesión</h1> 
-    <button id="googleButton">Iniciar sesión con Google</button>
-    </div>`;
+    e.preventDefault();
+    let userId;
+    let provider = new firebase.auth.GoogleAuthProvider();
+    auth.signInWithPopup(provider).then(res => {
+            userId = res.user.uid;
+            //db.collection(userId).doc(userId).set({});
+            db.collection('users').doc(userId).set({});
+            currentUserId = userId;
+            console.log(userId);
+            console.log(currentUserId)    
+            console.log('succes!');           
+        })
+});     
+let testButton = document.getElementById('testButton');
+testButton.addEventListener('click', e => {
+    e.preventDefault();
+    let userId;
+    let provider = new firebase.auth.GoogleAuthProvider();
+    auth.signInWithPopup(provider).then(res => {
+        userId = res.user.uid;
+        db.collection('users').doc(userId).set({});
+        console.log(userId);
+    });
+    console.log(userId);    
+})
 
-    let closeButton = document.getElementById('closeButton');
-    closeButton.addEventListener('click', () => {
-        body.removeChild(container);
+logOutButton.addEventListener('click', e => {
+    e.preventDefault();
+    console.log('apretado!')
+    firebase.auth().signOut().then(() => {
+        console.log('logged out!');
+    }).catch(err => {
+        console.log(err);
     })
+})
 
-    let googleButton = document.getElementById('googleButton');
-    googleButton.addEventListener('click', {
+function checkLogin(user) {
+    if (user) {
+        signInButton.style.display = 'none';
+        logOutButton.style.display = 'block'
+    } else {
+        signInButton.style.display = 'block';
+        logOutButton.style.display = 'none';;
+    }
+}
 
-    })
-});
+
 
 let library = [];
 
@@ -258,15 +291,32 @@ addBookButton.addEventListener('click', () => {
         displayLibrary();
         //De library se manda a la base de datos
         // Get a reference to the database service
-        var database = firebase.database().ref('Libros');
+        /*var database = firebase.database().ref('Libros');
         let book = database.push();
+console.log(currentUserId)    
         book.set({
             nombre: input1.value,
             autor: input2.value,
             páginas: input3.value,
             fecha_de_lectura: input4.value,   
             calificación: input5.value,
-        });
+        });*/
+        db.collection('users').doc(currentUserId).collection('Books').doc().set({
+            nombre: input1.value,
+            autor: input2.value,
+            páginas: input3.value,
+            fecha_de_lectura: input4.value,   
+            calificación: input5.value,
+        })
+
+        console.log('Libro añadido!');
+        /*.set({
+            nombre: input1.value,
+            autor: input2.value,
+            páginas: input3.value,
+            fecha_de_lectura: input4.value,   
+            calificación: input5.value,
+        });*/
         body.removeChild(formContainer);
 
     })
