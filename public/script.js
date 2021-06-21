@@ -12,6 +12,7 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
+let library = [];
 let body = document.querySelector('body');
 let bookList = document.getElementById('book-list');
 let addBookButton = document.getElementById('add-book');
@@ -22,13 +23,16 @@ let currentUserId;
 
 let auth = firebase.auth();
 
+let getBooksFromFirebase = docs => {
+
+}
+
 signInButton.addEventListener('click', e => {
     e.preventDefault();
     let userId;
     let provider = new firebase.auth.GoogleAuthProvider();
     auth.signInWithPopup(provider).then(res => {
             userId = res.user.uid;
-            //db.collection(userId).doc(userId).set({});
             db.collection('users').doc(userId).set({});
             currentUserId = userId;
             console.log(userId);
@@ -36,18 +40,6 @@ signInButton.addEventListener('click', e => {
             console.log('succes!');           
         })
 });     
-let testButton = document.getElementById('testButton');
-testButton.addEventListener('click', e => {
-    e.preventDefault();
-    let userId;
-    let provider = new firebase.auth.GoogleAuthProvider();
-    auth.signInWithPopup(provider).then(res => {
-        userId = res.user.uid;
-        db.collection('users').doc(userId).set({});
-        console.log(userId);
-    });
-    console.log(userId);    
-})
 
 logOutButton.addEventListener('click', e => {
     e.preventDefault();
@@ -59,6 +51,8 @@ logOutButton.addEventListener('click', e => {
     })
 })
 
+
+
 function checkLogin(user) {
     if (user) {
         signInButton.style.display = 'none';
@@ -69,26 +63,68 @@ function checkLogin(user) {
     }
 }
 
+function eliminateBooksFromLibrary() {
+    let bookList = document.getElementById('book-list');
+    let currentBookList = document.querySelectorAll('.row');
+    let count = 0;
+    for (book of currentBookList){
+        if(count > 0){
+            bookList.removeChild(book);
+        }
+        count += 1;
+    }   
+}
+
+function setUpBooks(data) {
+    if (data.length) {
+        data.forEach(doc => {
+             addBookToLibrary(
+                doc.data().nombre,
+                doc.data().autor,
+                doc.data().páginas, 
+                doc.data().fecha_de_lectura,
+                doc.data().calificación
+            )    
+             displayLibrary();
+        })
+    } else {
+
+    }
+}
+
+auth.onAuthStateChanged(user => {
+    if (user) {
+        checkLogin(user);
+        eliminateBooksFromLibrary();
+        db.collection('users').doc(user.uid).collection('Books')
+        .get()
+        .then(snapshot => {
+            setUpBooks(snapshot.docs);
+        })
+    } else {
+        library = [];
+        checkLogin(user);   
+    }
+})
 
 
-let library = [];
 
-function Book(title, author, pages, date, score) {
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.date = date;
-    this.score = score;
+function Book(nombre, autor, páginas, fecha_de_lectura, calificación) {
+    this.nombre = nombre;
+    this.autor = autor;
+    this.páginas = páginas;
+    this.fecha_de_lectura = fecha_de_lectura;
+    this.calificación = calificación;
     this.info = function() {
-        return `${title} by ${author}, ${pages} pages, ${read}.`;
+        return `${nombre} by ${autor}, ${páginas} pages, ${read}.`;
     } 
 }
 
 /*function displayLibrary() {
     library.map(book => {
-        let title = document.createElement('p')
-        title.textContent = book.title;
-        bookList.insertBefore(title, addBookButton);
+        let nombre = document.createElement('p')
+        nombre.textContent = book.nombre;
+        bookList.insertBefore(nombre, addBookButton);
 
         let author = document.createElement('p');
         author.textContent = book.author;
@@ -116,25 +152,25 @@ function displayLibrary() {
     row.className = 'row';
     bookList.insertBefore(row, addBookButton);
   
-    let title = document.createElement('p')
-    title.textContent = bookToDisplay.title;
-    row.appendChild(title);
+    let nombre = document.createElement('p')
+    nombre.textContent = bookToDisplay.nombre;
+    row.appendChild(nombre);
 
-    let author = document.createElement('p');
-    author.textContent = bookToDisplay.author;
-    row.appendChild(author);
+    let autor = document.createElement('p');
+    autor.textContent = bookToDisplay.autor;
+    row.appendChild(autor);
 
-    let pages = document.createElement('p');
-    pages.textContent = bookToDisplay.pages;
-    row.appendChild(pages);
+    let páginas = document.createElement('p');
+    páginas.textContent = bookToDisplay.páginas;
+    row.appendChild(páginas);
 
-    let dateOfReading = document.createElement('p');
-    dateOfReading.textContent = bookToDisplay.date;
-    row.appendChild(dateOfReading);
+    let fecha = document.createElement('p');
+    fecha.textContent = bookToDisplay.fecha_de_lectura;
+    row.appendChild(fecha);
 
-    let score = document.createElement('p');
-    score.textContent = bookToDisplay.score;
-    row.appendChild(score);    
+    let calificación = document.createElement('p');
+    calificación.textContent = bookToDisplay.calificación;
+    row.appendChild(calificación);    
 
     let deleteButton = document.createElement('button');
     deleteButton.textContent = 'X';
@@ -290,17 +326,6 @@ addBookButton.addEventListener('click', () => {
         addBookToLibrary(input1.value, input2.value, input3.value, input4.value, input5.value);
         displayLibrary();
         //De library se manda a la base de datos
-        // Get a reference to the database service
-        /*var database = firebase.database().ref('Libros');
-        let book = database.push();
-console.log(currentUserId)    
-        book.set({
-            nombre: input1.value,
-            autor: input2.value,
-            páginas: input3.value,
-            fecha_de_lectura: input4.value,   
-            calificación: input5.value,
-        });*/
         db.collection('users').doc(currentUserId).collection('Books').doc().set({
             nombre: input1.value,
             autor: input2.value,
@@ -310,13 +335,6 @@ console.log(currentUserId)
         })
 
         console.log('Libro añadido!');
-        /*.set({
-            nombre: input1.value,
-            autor: input2.value,
-            páginas: input3.value,
-            fecha_de_lectura: input4.value,   
-            calificación: input5.value,
-        });*/
         body.removeChild(formContainer);
 
     })
