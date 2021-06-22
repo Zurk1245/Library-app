@@ -19,25 +19,18 @@ let addBookButton = document.getElementById('add-book');
 let signInButton = document.getElementById('signInButton');
 let logOutButton = document.getElementById('logOutButton');
 
+let bookIdFromDataBase;
 let currentUserId;
-
 let auth = firebase.auth();
-
-let getBooksFromFirebase = docs => {
-
-}
 
 signInButton.addEventListener('click', e => {
     e.preventDefault();
-    let userId;
+    //let userId;
     let provider = new firebase.auth.GoogleAuthProvider();
     auth.signInWithPopup(provider).then(res => {
-            userId = res.user.uid;
-            db.collection('users').doc(userId).set({});
-            currentUserId = userId;
-            console.log(userId);
-            console.log(currentUserId)    
-            console.log('succes!');           
+            currentUserId = res.user.uid;
+            db.collection('users').doc(currentUserId).set({});
+            //currentUserId = userId;
         })
 });     
 
@@ -45,13 +38,12 @@ logOutButton.addEventListener('click', e => {
     e.preventDefault();
     console.log('apretado!')
     firebase.auth().signOut().then(() => {
+        currentUserId = '';  
         console.log('logged out!');
     }).catch(err => {
         console.log(err);
     })
 })
-
-
 
 function checkLogin(user) {
     if (user) {
@@ -78,6 +70,7 @@ function eliminateBooksFromLibrary() {
 function setUpBooks(data) {
     if (data.length) {
         data.forEach(doc => {
+            bookIdFromDataBase = doc.id;
              addBookToLibrary(
                 doc.data().nombre,
                 doc.data().autor,
@@ -85,7 +78,7 @@ function setUpBooks(data) {
                 doc.data().fecha_de_lectura,
                 doc.data().calificación
             )    
-             displayLibrary();
+             displayLibrary(bookIdFromDataBase);
         })
     } else {
 
@@ -102,8 +95,8 @@ auth.onAuthStateChanged(user => {
             setUpBooks(snapshot.docs);
         })
     } else {
-        library = [];
-        checkLogin(user);   
+        checkLogin(user); 
+        eliminateBooksFromLibrary();
     }
 })
 
@@ -144,7 +137,7 @@ function Book(nombre, autor, páginas, fecha_de_lectura, calificación) {
     })
 }*/
 
-function displayLibrary() {
+function displayLibrary(bookIdFromFIREBASE) {
     if (library.length === 0) return;
     let bookToDisplay = library[library.length - 1];
 
@@ -175,18 +168,48 @@ function displayLibrary() {
     let deleteButton = document.createElement('button');
     deleteButton.textContent = 'X';
     deleteButton.className = 'delete-button';
-    row.appendChild(deleteButton);
 
-    deleteButton.addEventListener('click', () => {
-        bookList.removeChild(row);
+   /* row.id = bookIdFromFIREBASE;
+    
+    let deleteBtns = document.querySelectorAll('.delete-button');
+deleteBtns.forEach(btn => {
+    btn.addEventListener('click', e => {
         //Borrar datos del libro en la base de datos
-        //let bookInDataBase = firebase.ref().child('')
+        console.log('clickeado')
+        console.log(bookIdFromFIREBASE);
+        db.collection('users').doc(currentUserId).collection('Books').doc(bookIdFromFIREBASE).delete().then(() => {
+            console.log("Document successfully deleted!");
+        }).catch((error) => {
+            console.error("Error removing document: ", error);
+        });;
+        //bookList.removeChild(bookIdFromFIREBASE);
         //Hay que ver como se selecciona el libro en cuestión
-        //Para borrarlo
+        //bookInDataBase.remove();
+    
+    })  
+})*/
+
+       deleteButton.addEventListener('click', (e) => {
+        //Borrar datos del libro en la base de datos
+        console.log('clickeado');
+        db.collection('users').doc(currentUserId).collection('Books').doc(bookIdFromFIREBASE).delete()
+        .then(() => {
+            console.log("Document successfully deleted!");
+        }).catch((error) => {
+            console.error("Error removing document: ", error);
+        });;
+        bookList.removeChild(row);
+        //Hay que ver como se selecciona el libro en cuestión
         //bookInDataBase.remove();
 
     })  
+
+    row.appendChild(deleteButton);
 }
+
+/*function deleteBookFromDataBase(id) {
+    db.collection('users').doc(currentUserId).collection('')
+}*/
 
 function addBookToLibrary(title, author, pages, date, score) {
     let bookToAddToTheLibraryList = new Book(title, author, pages, date, score);
@@ -321,18 +344,28 @@ addBookButton.addEventListener('click', () => {
         let input2 = document.getElementById('input2');
         let input3 = document.getElementById('input3');
         let input4 = document.getElementById('input4');
-        let input5 = document.getElementById('input');
+        let input5 = document.getElementById('input');  
+        
         //Se agrega el libro al array library
         addBookToLibrary(input1.value, input2.value, input3.value, input4.value, input5.value);
         displayLibrary();
-        //De library se manda a la base de datos
+        //Se manda el libro a la base de datos
         db.collection('users').doc(currentUserId).collection('Books').doc().set({
+            //docId: this,
             nombre: input1.value,
             autor: input2.value,
             páginas: input3.value,
             fecha_de_lectura: input4.value,   
             calificación: input5.value,
-        })
+        });
+        /*eliminateBooksFromLibrary();
+        db.collection('users').doc(currentUserId).collection('Books')
+        .get()
+        .then(snapshot => {
+            setUpBooks(snapshot.docs);
+        //bookIdFromDataBase = db.collection('users').doc(currentUserId).collection('Books').doc().id;
+        //console.log(bookIdFromDataBase)
+        });*/
 
         console.log('Libro añadido!');
         body.removeChild(formContainer);
@@ -340,11 +373,6 @@ addBookButton.addEventListener('click', () => {
     })
 })
 
-
-
 addBookToLibrary('Atomic Habits', 'James Clear', 320, '01/03/2021', 3);
-console.log(library);
 displayLibrary();
 
-//const atomicHabits = new Book('Atomic Habits', 'James Clear', 320, '01/03/2021', 3);
-//console.log(atomicHabits.info())
