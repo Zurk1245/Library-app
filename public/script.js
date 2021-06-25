@@ -32,9 +32,20 @@ signInButton.addEventListener('click', e => {
     auth.signInWithPopup(provider).then(res => {
             currentUserId = res.user.uid;
             db.collection('users').doc(currentUserId).set({});
+            
+
         })
 });     
+let logUndefined = async () => {
+    /*let lol = await db.collection('asd').doc('f').doc('asd').get().then(() => {
+        console.log('bien!');
+    }).catch( err => {
+        console.log(err);
+    })
+    console.log(lol)*/
 
+}
+logUndefined();
 logOutButton.addEventListener('click', e => {
     e.preventDefault();
     console.log('apretado!')
@@ -72,6 +83,7 @@ function setUpBooks(data) {
     if (data.length) {
         data.forEach(doc => {
             bookIdFromDataBase = doc.id;
+            if (doc.data().nombre === undefined) {return}
              addBookToLibrary(
                 doc.data().nombre,
                 doc.data().autor,
@@ -86,11 +98,23 @@ function setUpBooks(data) {
     }
 }
 
-auth.onAuthStateChanged(user => {
+let initialValue;
+
+auth.onAuthStateChanged(async user => {
     if (user) {
         checkLogin(user);
         eliminateBooksFromLibrary();
         currentUserId = user.uid;
+        initialValue =  await db.collection('users').doc(currentUserId).collection('Books')
+        .doc('InitialValue').get();
+            if (initialValue.exists === false) {
+                await db.collection('users').doc(currentUserId).collection('Books')
+                .doc('InitialValue')
+                .set({
+                    docNumber: 0,
+                });
+            }
+        console.log(initialValue.data().docNumber);
         db.collection('users').doc(currentUserId).collection('Books')
         .get()
         .then(snapshot => {
@@ -100,9 +124,7 @@ auth.onAuthStateChanged(user => {
         eliminateBooksFromLibrary();
         checkLogin(user); 
     }
-    console.log(currentUserId);
 })
-
 
 
 function Book(nombre, autor, páginas, fecha_de_lectura, calificación) {
@@ -111,9 +133,6 @@ function Book(nombre, autor, páginas, fecha_de_lectura, calificación) {
     this.páginas = páginas;
     this.fecha_de_lectura = fecha_de_lectura;
     this.calificación = calificación;
-    this.info = function() {
-        return `${nombre} by ${autor}, ${páginas} pages, ${read}.`;
-    } 
 }
 
 /*function displayLibrary() {
@@ -194,7 +213,6 @@ deleteBtns.forEach(btn => {
 
        deleteButton.addEventListener('click', (e) => {
         //Borrar datos del libro en la base de datos
-        console.log('clickeado');
         console.log(bookDocId)
         db.collection('users').doc(currentUserId).collection('Books').doc(bookDocId).delete()
         .then(() => {
@@ -203,17 +221,12 @@ deleteBtns.forEach(btn => {
             console.error("Error removing document: ", error);
         });;
         bookList.removeChild(row);
-        //Hay que ver como se selecciona el libro en cuestión
-        //bookInDataBase.remove();
 
     })  
 
     row.appendChild(deleteButton);
 }
 
-/*function deleteBookFromDataBase(id) {
-    db.collection('users').doc(currentUserId).collection('')
-}*/
 
 function addBookToLibrary(title, author, pages, date, score) {
     let bookToAddToTheLibraryList = new Book(title, author, pages, date, score);
@@ -353,17 +366,18 @@ addBookButton.addEventListener('click', () => {
         //Se agrega el libro al array library
         addBookToLibrary(input1.value, input2.value, input3.value, input4.value, input5.value);
         
-        docId++;
-        stringId = docId.toString();
+        
         //Se manda el libro a la base de datos
         if (currentUserId) {
+            let id = initialValue.data().docNumber;
+            id++;
             db.collection('users').doc(currentUserId).collection('Books').doc(input1.value+input2.value).set({
                 nombre: input1.value,
                 autor: input2.value,
                 páginas: input3.value,
                 fecha_de_lectura: input4.value,   
                 calificación: input5.value,
-                //numberId: ,
+                numberId: id,
             });
             displayLibrary(input1.value+input2.value);
         } else {
