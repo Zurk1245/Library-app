@@ -19,8 +19,7 @@ let addBookButton = document.getElementById('add-book');
 let signInButton = document.getElementById('signInButton');
 let logOutButton = document.getElementById('logOutButton');
 let docId = 0;
-let stringId;
-let userID;
+
 
 let bookIdFromDataBase;
 let currentUserId = undefined;
@@ -36,16 +35,7 @@ signInButton.addEventListener('click', e => {
 
         })
 });     
-let logUndefined = async () => {
-    /*let lol = await db.collection('asd').doc('f').doc('asd').get().then(() => {
-        console.log('bien!');
-    }).catch( err => {
-        console.log(err);
-    })
-    console.log(lol)*/
 
-}
-logUndefined();
 logOutButton.addEventListener('click', e => {
     e.preventDefault();
     console.log('apretado!')
@@ -93,29 +83,16 @@ function setUpBooks(data) {
             )    
              displayLibrary(bookIdFromDataBase);
         })
-    } else {
-
     }
+    return; 
 }
-
-let initialValue;
-
-auth.onAuthStateChanged(async user => {
+//Autenticación y mostrar libros del usuario
+auth.onAuthStateChanged(user => {
     if (user) {
         checkLogin(user);
         eliminateBooksFromLibrary();
         currentUserId = user.uid;
-        initialValue =  await db.collection('users').doc(currentUserId).collection('Books')
-        .doc('InitialValue').get();
-            if (initialValue.exists === false) {
-                await db.collection('users').doc(currentUserId).collection('Books')
-                .doc('InitialValue')
-                .set({
-                    docNumber: 0,
-                });
-            }
-        console.log(initialValue.data().docNumber);
-        db.collection('users').doc(currentUserId).collection('Books')
+        db.collection('users').doc(currentUserId).collection('Books').orderBy('creacion')
         .get()
         .then(snapshot => {
             setUpBooks(snapshot.docs);
@@ -134,30 +111,6 @@ function Book(nombre, autor, páginas, fecha_de_lectura, calificación) {
     this.fecha_de_lectura = fecha_de_lectura;
     this.calificación = calificación;
 }
-
-/*function displayLibrary() {
-    library.map(book => {
-        let nombre = document.createElement('p')
-        nombre.textContent = book.nombre;
-        bookList.insertBefore(nombre, addBookButton);
-
-        let author = document.createElement('p');
-        author.textContent = book.author;
-        bookList.insertBefore(author, addBookButton);
-
-        let pages = document.createElement('p');
-        pages.textContent = book.pages;
-        bookList.insertBefore(pages, addBookButton);
-
-        let dateOfReading = document.createElement('p');
-        dateOfReading.textContent = book.date;
-        bookList.insertBefore(dateOfReading, addBookButton);
-
-        let score = document.createElement('p');
-        score.textContent = book.score;
-        bookList.insertBefore(score, addBookButton);
-    })
-}*/
 
 function displayLibrary(bookDocId) {
     if (library.length === 0) return;
@@ -191,48 +144,19 @@ function displayLibrary(bookDocId) {
     deleteButton.textContent = 'X';
     deleteButton.className = 'delete-button';
 
-   /* row.id = bookDocId;
-    
-    let deleteBtns = document.querySelectorAll('.delete-button');
-deleteBtns.forEach(btn => {
-    btn.addEventListener('click', e => {
-        //Borrar datos del libro en la base de datos
-        console.log('clickeado')
-        console.log(bookDocId);
-        db.collection('users').doc(currentUserId).collection('Books').doc(bookDocId).delete().then(() => {
-            console.log("Document successfully deleted!");
-        }).catch((error) => {
-            console.error("Error removing document: ", error);
-        });;
-        //bookList.removeChild(bookDocId);
-        //Hay que ver como se selecciona el libro en cuestión
-        //bookInDataBase.remove();
-    
-    })  
-})*/
-
-       deleteButton.addEventListener('click', (e) => {
-        //Borrar datos del libro en la base de datos
-        console.log(bookDocId)
-        db.collection('users').doc(currentUserId).collection('Books').doc(bookDocId).delete()
-        .then(() => {
-            console.log("Document successfully deleted!");
-        }).catch((error) => {
-            console.error("Error removing document: ", error);
-        });;
+    //Borrar datos del libro en la base de datos
+    deleteButton.addEventListener('click', () => {
+        db.collection('users').doc(currentUserId).collection('Books').doc(bookDocId).delete();
         bookList.removeChild(row);
-
     })  
 
     row.appendChild(deleteButton);
 }
 
-
 function addBookToLibrary(title, author, pages, date, score) {
     let bookToAddToTheLibraryList = new Book(title, author, pages, date, score);
     library.push(bookToAddToTheLibraryList);
 }
-
 
 addBookButton.addEventListener('click', () => {
     let formContainer = document.createElement('form');
@@ -356,7 +280,7 @@ addBookButton.addEventListener('click', () => {
     pushBookButton.id = 'pushBookButton';
     pushBookButton.textContent = 'Agregar';
     buttonsContainer.appendChild(pushBookButton);
-    pushBookButton.addEventListener('click', () => {
+    pushBookButton.addEventListener('click', async () => {
         let input1 = document.getElementById('input1');
         let input2 = document.getElementById('input2');
         let input3 = document.getElementById('input3');
@@ -366,31 +290,22 @@ addBookButton.addEventListener('click', () => {
         //Se agrega el libro al array library
         addBookToLibrary(input1.value, input2.value, input3.value, input4.value, input5.value);
         
-        
         //Se manda el libro a la base de datos
         if (currentUserId) {
-            let id = initialValue.data().docNumber;
-            id++;
             db.collection('users').doc(currentUserId).collection('Books').doc(input1.value+input2.value).set({
                 nombre: input1.value,
                 autor: input2.value,
                 páginas: input3.value,
                 fecha_de_lectura: input4.value,   
                 calificación: input5.value,
-                numberId: id,
+                creacion: firebase.firestore.FieldValue.serverTimestamp(),
             });
+
             displayLibrary(input1.value+input2.value);
         } else {
             displayLibrary();
         }
-        
-
-        console.log('Libro añadido!');
         body.removeChild(formContainer);
 
     })
 })
-
-//addBookToLibrary('Atomic Habits', 'James Clear', 320, '01/03/2021', 3);
-//displayLibrary();
-

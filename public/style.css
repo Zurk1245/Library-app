@@ -28,15 +28,13 @@ body {
     color: white;
 }
 
-.container {
+#nav > .container {
   display: flex;
   justify-content: flex-end;
   align-items: center;
 }
 
 .container > .button {
-  /*width: 150px;
-  height: 65px;*/
   margin-right: 50px;
   background-color:rgba(0, 119, 255, 0.746);
   color: white;
@@ -61,60 +59,12 @@ body {
     padding: 7px 30px;  
 }
 
-/*Sign in pop up*/
-#signInContainer {
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  background-color: rgba(3, 3, 3, 0.74);
-  display: flex;
-  justify-content: center;
-  align-items: center;
+#books_information_container {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 4fr 1fr;
 }
 
-#signInForm {
-  width: 500px;
-  height: 250px;
-  background: #4568DC;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #B06AB3, #4568DC);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #B06AB3, #4568DC); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  position: relative;
-}
-
-#signInForm > #closeButton {
-  position: absolute;
-  top: 0;
-  right: 0;
-  background-color: rgb(229, 173, 255);
-  border: 0px solid black;
-  width: 40px;
-  height: 30px;
-  font-size: 1.2em;
-  font-weight: bold;
-  color: rgb(255, 255, 255);
-  cursor: pointer;
-}
-
-#signInForm > #signInTitle {
-  color: white;
-  margin-bottom: 30px;
-}
-
-#signInForm > #googleButton {
-  padding: 24px;
-  font-size: 1.3em;
-  background-color: rgba(0, 133, 185, 0.746);
-  border: 1px solid black;
-  color: white;
-  width: 85%;
-  cursor: pointer;
-}
 
 #book-list {
     background-color: rgba(4, 22, 24, 0.52);
@@ -122,8 +72,8 @@ body {
     flex-direction: column;
     align-items: center;
     color: rgb(255, 255, 255);
-    margin: 0 auto;
-    width: 1300px;
+    /*margin: 0 auto;*/
+    width: 100%;
     /*display: grid;
     width: 1200px;
     margin: 60px;
@@ -295,15 +245,14 @@ body {
     border: 4px solid white;
 }
 
-/*.range > * {
-    font-family: 'Poppins', sans-serif;
-    z-index: 900;
-}*/
-
+.range {
+    width: 570px
+}
 
 .sliderValue{
   position: relative;
   width: 100%;
+  z-index: 900;
 }
 .sliderValue span{
   position: absolute;
@@ -317,6 +266,7 @@ body {
   color: #fff;
   transform-origin: bottom;
   transition: transform 0.3s ease-in-out;
+  z-index: 900;
 }
 .sliderValue span.show{
   transform: translateX(-70%) scale(1);
