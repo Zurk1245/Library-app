@@ -15,12 +15,11 @@ const db = firebase.firestore();
 let library = [];
 let body = document.querySelector('body');
 let bookList = document.getElementById('book-list');
+let currentBookList = bookList.querySelectorAll('.row');
 let addBookButton = document.getElementById('add-book');
 let signInButton = document.getElementById('signInButton');
 let logOutButton = document.getElementById('logOutButton');
 let docId = 0;
-
-
 let bookIdFromDataBase;
 let currentUserId = undefined;
 let auth = firebase.auth();
@@ -41,11 +40,44 @@ logOutButton.addEventListener('click', e => {
     console.log('apretado!')
     firebase.auth().signOut().then(() => {
         currentUserId = undefined;  
-        console.log('logged out!');
     }).catch(err => {
         console.log(err);
     })
 })
+
+function updateStatistics() {
+    let booksQuantity = document.getElementById('booksQuantity');
+    let currentBookList = document.querySelectorAll('.row');
+    let totalPages = document.getElementById('totalPages');    
+    let averageCalification = document.getElementById('averageCalification');
+
+    /*if (currentBookList.length === 0) {
+        averageCalification.textContent = '0';
+        booksQuantity.textContent = '0';
+        totalPages.textContent = '0';
+        return;
+    };*/
+    let books = currentBookList.length;
+    booksQuantity.textContent = books;
+
+    let pages = 0;
+    db.collection('users').doc(currentUserId).collection('Books').get().then(snapshot => {
+        snapshot.docs.forEach(doc => {
+            pages += parseFloat(doc.data().páginas);
+        })
+        totalPages.textContent = pages;
+    });
+
+    let average = 0;
+    db.collection('users').doc(currentUserId).collection('Books').get().then(snapshot => {
+        snapshot.docs.forEach(doc => {
+            average += parseFloat(doc.data().calificación);
+        })
+        average = average / currentBookList.length;
+        averageCalification.textContent = Math.round((average + Number.EPSILON) * 100) / 100;    
+    });
+}
+
 
 function checkLogin(user) {
     if (user) {
@@ -96,13 +128,15 @@ auth.onAuthStateChanged(user => {
         .get()
         .then(snapshot => {
             setUpBooks(snapshot.docs);
-        })
+            updateStatistics();
+        });
+        
     } else {
         eliminateBooksFromLibrary();
         checkLogin(user); 
+        updateStatistics();
     }
 })
-
 
 function Book(nombre, autor, páginas, fecha_de_lectura, calificación) {
     this.nombre = nombre;
@@ -144,13 +178,20 @@ function displayLibrary(bookDocId) {
     deleteButton.textContent = 'X';
     deleteButton.className = 'delete-button';
 
+    row.appendChild(deleteButton);
+ 
     //Borrar datos del libro en la base de datos
     deleteButton.addEventListener('click', () => {
         db.collection('users').doc(currentUserId).collection('Books').doc(bookDocId).delete();
-        bookList.removeChild(row);
+        //bookList.removeChild(row);
+        eliminateBooksFromLibrary();
+        db.collection('users').doc(currentUserId).collection('Books').orderBy('creacion')
+        .get()
+        .then(snapshot => {
+            setUpBooks(snapshot.docs);
+            updateStatistics();
+        });
     })  
-
-    row.appendChild(deleteButton);
 }
 
 function addBookToLibrary(title, author, pages, date, score) {
@@ -176,6 +217,7 @@ addBookButton.addEventListener('click', () => {
         input.className = 'input';
         input.setAttribute('id', inputNumber);
         input.setAttribute('type', inputType);
+        input.setAttribute('required', true);
 
         if (inputType === 'range') {
             input.setAttribute('min', '1');
@@ -241,19 +283,19 @@ addBookButton.addEventListener('click', () => {
         slideValue.textContent = value;
         switch (value) {
             case '1': 
-                slideValue.style.left = (value*13.2) + "%";
+                slideValue.style.left = (value*9) + "%";
                 break;
             case '2':
-                slideValue.style.left = (value*18.3) + "%";
+                slideValue.style.left = (value*15.63) + "%";
                 break;
             case '3': 
-            slideValue.style.left = (value*19.8) + "%";
+            slideValue.style.left = (value*18.66) + "%";
                 break;   
             case '4': 
-            slideValue.style.left = (value*20.6) + "%";
+            slideValue.style.left = (value*19.83) + "%";
                 break;                           
             case '5':
-                slideValue.style.left = (value*21.2) + "%";
+                slideValue.style.left = (value*20.66) + "%";
                 break;
         }
         slideValue.classList.add("show");
@@ -280,13 +322,30 @@ addBookButton.addEventListener('click', () => {
     pushBookButton.id = 'pushBookButton';
     pushBookButton.textContent = 'Agregar';
     buttonsContainer.appendChild(pushBookButton);
-    pushBookButton.addEventListener('click', async () => {
+    pushBookButton.addEventListener('click', () => {
         let input1 = document.getElementById('input1');
         let input2 = document.getElementById('input2');
         let input3 = document.getElementById('input3');
         let input4 = document.getElementById('input4');
         let input5 = document.getElementById('input');  
-        
+
+        let inputs = document.querySelectorAll('.input');
+        let error = false;
+        inputs.forEach(input => {
+            if (input.value == '') {
+                error = true;
+            }
+        });
+        if (error === true) {
+            let mensaje = document.createElement('div');
+                mensaje.innerHTML = '<p>Recuerde no dejar espacios en blanco</p>';
+                mensaje.style.cssText = 'color: red; font-weight: bold; font-size: 1em;'
+                let formRef = addForm.querySelector('.label');
+                addForm.insertBefore(mensaje, formRef);
+                return;
+        }
+
+
         //Se agrega el libro al array library
         addBookToLibrary(input1.value, input2.value, input3.value, input4.value, input5.value);
         
@@ -300,12 +359,20 @@ addBookButton.addEventListener('click', () => {
                 calificación: input5.value,
                 creacion: firebase.firestore.FieldValue.serverTimestamp(),
             });
-
+            eliminateBooksFromLibrary();
+            db.collection('users').doc(currentUserId).collection('Books').orderBy('creacion')
+            .get()
+            .then(snapshot => {
+            setUpBooks(snapshot.docs);
+            updateStatistics();
+        });
+            //updateStatistics();
             displayLibrary(input1.value+input2.value);
+            body.removeChild(formContainer);
         } else {
             displayLibrary();
+            body.removeChild(formContainer);
         }
-        body.removeChild(formContainer);
 
     })
 })
