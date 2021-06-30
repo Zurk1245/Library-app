@@ -284,19 +284,19 @@ addBookButton.addEventListener('click', () => {
         slideValue.textContent = value;
         switch (value) {
             case '1': 
-                slideValue.style.left = (value*8.29) + "%";
+                slideValue.style.left = (value*9.65) + "%";
                 break;
             case '2':
-                slideValue.style.left = (value*15.63) + "%";
+                slideValue.style.left = (value*16.84) + "%";
                 break;
             case '3': 
-            slideValue.style.left = (value*18.66) + "%";
+            slideValue.style.left = (value*18.96) + "%";
                 break;   
             case '4': 
-            slideValue.style.left = (value*19.83) + "%";
+            slideValue.style.left = (value*20.13) + "%";
                 break;                           
             case '5':
-                slideValue.style.left = (value*20.66) + "%";
+                slideValue.style.left = (value*20.906) + "%";
                 break;
         }
         slideValue.classList.add("show");
