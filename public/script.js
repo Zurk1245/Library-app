@@ -77,14 +77,23 @@ function updateStatistics() {
     });
 }
 
+let storeYourDataMessage = document.createElement('div');
+storeYourDataMessage.innerHTML = '<p class="storeYourDataMessage">¡Inicie sesión para guardar sus libros!</p>';
+storeYourDataMessage.style.cssText = 'font-weight: bold; font-size: 1.4em; margin: 10px auto;';
 
 function checkLogin(user) {
-    if (user) {
+        if (user) {
         signInButton.style.display = 'none';
-        logOutButton.style.display = 'block'
+        logOutButton.style.display = 'block';
+        if (storeYourDataMessage.style.display == 'block') {
+            bookList.removeChild(storeYourDataMessage);
+        } 
+
     } else {
         signInButton.style.display = 'block';
-        logOutButton.style.display = 'none';;
+        logOutButton.style.display = 'none';
+        storeYourDataMessage.style.display = 'block';
+        bookList.insertBefore(storeYourDataMessage, addBookButton);
     }
 }
 
@@ -409,6 +418,9 @@ let closeInformation = document.getElementById('closeInformation');
 let closeInformationLabel = document.querySelector('.closeInformation-label');
 
 let information = document.getElementById('information-section');
+let newInformationContainer = document.createElement('div');
+newInformationContainer.className = 'newInformationContainer';
+body.insertBefore(newInformationContainer, document.getElementById('nav'));
 
 
 toggle.addEventListener('click', () => {
@@ -416,15 +428,13 @@ toggle.addEventListener('click', () => {
     information.classList.remove('information');
     toggleLabel.style.display = 'none';
     closeInformationLabel.style.display = 'flex';
-    let newInformationContainer = document.createElement('div');
-    newInformationContainer.className = 'newInformationContainer';
-    body.insertBefore(newInformationContainer, document.getElementById('nav'));
+    newInformationContainer.style.display = 'block';
 
-    closeInformation.addEventListener('click', () => {
-        body.removeChild(newInformationContainer);
+closeInformation.addEventListener('click', () => {
         information.classList.remove('informationAdapted');
         information.classList.add('information');
         closeInformationLabel.style.display = 'none';
         toggleLabel.style.display = 'flex';
+        newInformationContainer.style.display = 'none';
     })
 })
