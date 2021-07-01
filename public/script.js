@@ -400,3 +400,31 @@ addBookButton.addEventListener('click', () => {
 
     })
 })
+
+//RESPONSIVE DESIGN
+let toggle = document.getElementById('toggle');
+let toggleLabel = document.querySelector('.toggle-label');
+
+let closeInformation = document.getElementById('closeInformation');
+let closeInformationLabel = document.querySelector('.closeInformation-label');
+
+let information = document.getElementById('information-section');
+
+
+toggle.addEventListener('click', () => {
+    information.classList.add('informationAdapted');
+    information.classList.remove('information');
+    toggleLabel.style.display = 'none';
+    closeInformationLabel.style.display = 'flex';
+    let newInformationContainer = document.createElement('div');
+    newInformationContainer.className = 'newInformationContainer';
+    body.insertBefore(newInformationContainer, document.getElementById('nav'));
+
+    closeInformation.addEventListener('click', () => {
+        body.removeChild(newInformationContainer);
+        information.classList.remove('informationAdapted');
+        information.classList.add('information');
+        closeInformationLabel.style.display = 'none';
+        toggleLabel.style.display = 'flex';
+    })
+})
