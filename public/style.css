@@ -12,6 +12,7 @@ body {
     background-repeat: no-repeat;
     background-size: cover;
     background-attachment: fixed;
+    min-height: 100vh;
 }
 
 #nav {
@@ -164,8 +165,8 @@ body {
 
 .add-form {
     position: fixed;
-    width: 550px;
-    height: 650px;
+    width: 40vw;
+    height: 90vh;
     display: flex;
     align-items: stretch;
     flex-direction: column;
@@ -199,9 +200,10 @@ body {
 }*/
 
 .range{
-    height: 80px;
+    height: 70px;
     /*width: 380px;*/
-    width: 470px;
+    /* width: 470px; */
+    width: 100%;
     background: #fff;
     border-radius: 10px;
     padding: 0 65px 0 45px;
@@ -346,7 +348,7 @@ body {
   background-color: rgba(0, 32, 121, 0.815);
   color: white;
   padding: 30px;
-  height: 85vh;
+  height: 80vh;
   display: grid;
   grid-template-rows: 15fr 1fr;
   text-align: center;
@@ -406,7 +408,29 @@ body {
   transform: scale(1, 1);
 }
 
+/*RESPONSIVE DESIGN*/
+
+@media screen and (max-width: 1070px) {
+  .add-form {
+    font-size: .9em;
+    height: 83vh;
+    width: 55vw;
+  }
+}
+
 @media screen and (max-width: 1010px) {
+  .add-form {
+    font-size: .84em;
+    height: 80vh;
+  }
+
+  #cancelButton, #pushBookButton {
+    margin-top: 20px;
+    font-size: 1.24em;
+  }
+  .range {
+    height: 55px;
+  }
   .storeYourDataMessage {
     font-size: .9em;
   }
@@ -420,12 +444,19 @@ body {
 }
 
 @media screen and (max-width: 890px) {
+    #newIdForVioletValue {
+      color: black;
+    }
     #nav > .container {
       width: 95%;
     }
 
     .storeYourDataMessage {
       font-size: .7em;
+    }
+
+    .add-form {
+      height: 87vh;
     }
 
     #toggle {
@@ -521,7 +552,7 @@ body {
       position: absolute;
       top: 110px;
       right: 240px;
-      height: 75vh;
+      height: 70vh;
       display: grid;
       grid-template-rows: 15fr 1fr;
       text-align: center;
@@ -536,12 +567,17 @@ body {
 }
 
 @media screen and (max-width: 800px) {
+  .add-form {
+    width: 60vw;
+    height: 88vh;
+  }
   .informationAdapted {
     right: 200px;
   }
 }
 
  @media screen and (max-width: 720px) {
+
   #books_information_container {
     justify-content: center;
     width: 100%;
@@ -562,6 +598,10 @@ body {
       font-size: 1em;
       column-gap: 10px;
   }
+  .add-form {
+    width: 70vw;
+    height: 88vh;
+  }
   .delete-button {
     font-size: .7em;
     width: 2.7em;
@@ -574,11 +614,24 @@ body {
 }
 
 @media screen and (max-width: 626px) {
+    #signInButton {
+      font-size: .8em;
+      padding: 5px 30px;
+  }
+
+  #logOutButton {
+      font-size: .8em;
+      padding: 5px 30px;  
+  }
     .description-row {
       font-size: .77em;
   }
+  .add-form {
+    width: 75vw;
+  }
   .informationAdapted {
-    right: 110px;
+    right: 150px;
+    width: 300px;
   }
 }
 
@@ -586,16 +639,138 @@ body {
     .description-row {
       font-size: .65em;
   }
+  #cancelButton, #pushBookButton {
+    font-size: 1.3em;
+  }
+  #cancelButton {
+    padding: 8px;
+  }
   .informationAdapted {
-    right: 90px;
+    right: 110px;
   }
 }
 
 @media screen and (max-width: 510px) {
+  #nav {
+    height: 75px;
+    grid-template-columns: 150px minmax(100px, auto);
+  }
+  #nav > #title {
+    margin-top: 5px;
+    font-size: 1.1em;
+    line-height: 30px;
+  }
+    .description-row {
+      font-size: .65em;
+  }
+  .informationAdapted {
+    right: 95px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  
+ 
+  .add-form {
+    width: 83vw;
+  }
   .description-row {
-    font-size: .65em;
+      font-size: .58em;
+  }
+  .row {
+    font-size: .77em;
+  }
+  .informationAdapted {
+    right: 85px;
+    width: 63vw;
+  }
 }
-.informationAdapted {
-  right: 65px;
+
+@media screen and (max-width: 440px) {
+     #signInButton {
+      font-size: .7em;
+      padding: 5px 30px;
+  }
+
+  #logOutButton {
+      font-size: .7em;
+      padding: 5px 30px;  
+  } 
+  .description-row {
+    font-size: .48em;
+  } 
+  .add-form {
+    width: 87vw;
+  }
+   #cancelButton, #pushBookButton {
+     font-size: 1.24em;
+   } 
+   
+   .range {
+     height: 50px;
+   }
 }
+@media screen and (max-width: 423px) {
+  #books_information_container {
+    width: 100%;
+    margin: 20px 0px;
+  }
+  .description-row {
+    font-size: .5em;
+  } 
+  .informationAdapted {
+    right: 65px;
+    width: 68vw;
+  }
+}
+@media screen and (max-width: 399px) {
+    #signInButton {
+      padding: 5px 20px;
+  }
+
+  #logOutButton {
+      padding: 5px 20px;  
+  } 
+  .description-row {
+    font-size: .43em;
+  }
+  .row {
+    font-size: .63em;
+  }
+  .informationAdapted {
+    right: 65px;
+    width: 65vw;
+    height: 65vh;
+  }
+}
+@media screen and (max-width: 372px) {
+  #books_information_container {
+    width: 103%;
+    margin: 20px 0px;
+  }
+}
+@media screen and (max-width: 367px) {
+  .add-form {
+    width: 95vw;
+  }    
+}
+@media screen and (max-width: 360px) {
+    #books_information_container {
+      width: 103%;
+      margin: 20px 0px;
+    }
+    .description-row {
+      grid-template-columns: repeat(5, minmax(20px, 3fr)) 1fr;
+      font-weight: bold;
+      font-size: .42em;
+    }
+    .row {
+      grid-template-columns: repeat(5, minmax(20px, 3fr)) 1fr;
+      font-size: .65em;
+    }
+    .delete-button {
+      font-size: .65em;
+      width: 2.4em;
+      height: 2.6em;
+  }
 }

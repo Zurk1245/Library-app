@@ -24,6 +24,11 @@ let bookIdFromDataBase;
 let currentUserId = undefined;
 let auth = firebase.auth();
 
+//FOR RESPONSIVE DESIGN
+let height = screen.height;
+let width = screen.width;
+
+//SIGN IN
 signInButton.addEventListener('click', e => {
     e.preventDefault();
     let provider = new firebase.auth.GoogleAuthProvider();
@@ -288,26 +293,123 @@ addBookButton.addEventListener('click', () => {
 
     const slideValue = document.querySelector("span");
     const inputSlider = document.getElementById("input");
+    console.log(width)
+
     inputSlider.oninput = (()=>{
         let value = inputSlider.value;
         slideValue.textContent = value;
-        switch (value) {
-            case '1': 
-                slideValue.style.left = (value*9.65) + "%";
-                break;
-            case '2':
-                slideValue.style.left = (value*16.84) + "%";
-                break;
-            case '3': 
-            slideValue.style.left = (value*18.96) + "%";
-                break;   
-            case '4': 
-            slideValue.style.left = (value*20.13) + "%";
-                break;                           
-            case '5':
-                slideValue.style.left = (value*20.906) + "%";
-                break;
+        //Responsive design para los valores violetas de la califiación de los libros
+        if (width > 1000) {
+            switch (value) {
+                case '1': 
+                    slideValue.style.left = (value*9.65) + "%";
+                    break;
+                case '2':
+                    slideValue.style.left = (value*16.84) + "%";
+                    break;
+                case '3': 
+                slideValue.style.left = (value*18.96) + "%";
+                    break;   
+                case '4': 
+                slideValue.style.left = (value*20.13) + "%";
+                    break;                           
+                case '5':
+                    slideValue.style.left = (value*20.906) + "%";
+                    break;
+            }
+       } else if (width <= 1000 && width > 900) {
+            switch (value) {
+                case '1': 
+                    slideValue.style.left = (value*10.1) + "%";
+                    break;
+                case '2':
+                    slideValue.style.left = (value*16.92) + "%";
+                    break;
+                case '3': 
+                slideValue.style.left = (value*19.1) + "%";
+                    break;   
+                case '4': 
+                slideValue.style.left = (value*20.3) + "%";
+                    break;                           
+                case '5':
+                    slideValue.style.left = (value*20.906) + "%";
+                    break;
+            }
+        } else if (width <= 900 && width > 590) {
+            switch (value) {
+                case '1': 
+                    slideValue.style.left = (value*13.1) + "%";
+                    break;
+                case '2':
+                    slideValue.style.left = (value*17.92) + "%";
+                    break;
+                case '3': 
+                slideValue.style.left = (value*19.9) + "%";
+                    break;   
+                case '4': 
+                slideValue.style.left = (value*20.6) + "%";
+                    break;                           
+                case '5':
+                    slideValue.style.left = (value*21.06) + "%";
+                    break;
+            }
+        } else if (width <= 590 && width > 552) {
+            switch (value) {
+                case '1': 
+                    slideValue.style.left = (value*14.1) + "%";
+                    break;
+                case '2':
+                    slideValue.style.left = (value*18.92) + "%";
+                    break;
+                case '3': 
+                slideValue.style.left = (value*19.9) + "%";
+                    break;   
+                case '4': 
+                slideValue.style.left = (value*20.6) + "%";
+                    break;                           
+                case '5':
+                    slideValue.style.left = (value*21.06) + "%";
+                    break;
+            }
+        } else if (width <= 552 && width > 405) {
+            switch (value) {
+                case '1': 
+                    slideValue.style.left = (value*18.08) + "%";
+                    break;
+                case '2':
+                    slideValue.style.left = (value*20.212) + "%";
+                    break;
+                case '3': 
+                slideValue.style.left = (value*20.9) + "%";
+                    break;   
+                case '4': 
+                slideValue.style.left = (value*20.96) + "%";
+                    break;                           
+                case '5':
+                    slideValue.style.left = (value*21.806) + "%";
+                    break;
+            }
+        } else if (width <= 405 && width > 200) {
+            console.log('hola')
+            switch (value) {
+                case '1': 
+                    slideValue.style.left = (value*19.08) + "%";
+                    break;
+                case '2':
+                    slideValue.style.left = (value*21.212) + "%";
+                    break;
+                case '3': 
+                slideValue.style.left = (value*21.9) + "%";
+                    break;   
+                case '4': 
+                slideValue.style.left = (value*21.96) + "%";
+                    break;                           
+                case '5':
+                    slideValue.style.left = (value*21.806) + "%";
+                    break;
+            }
         }
+        
         slideValue.classList.add("show");
     });
     inputSlider.onblur = (()=>{
