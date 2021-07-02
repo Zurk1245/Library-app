@@ -230,7 +230,6 @@ addBookButton.addEventListener('click', () => {
         input.className = 'input';
         input.setAttribute('id', inputNumber);
         input.setAttribute('type', inputType);
-        //input.setAttribute('required', true);
 
         if (inputType === 'range') {
             input.setAttribute('min', '1');
@@ -241,7 +240,10 @@ addBookButton.addEventListener('click', () => {
         addForm.appendChild(input);   
         let br = document.createElement('br');
         br.id = `br-for-${inputNumber}`;
-        addForm.appendChild(br); 
+        br.className = 'br-add-form';
+        if (width >= 720) {
+            addForm.appendChild(br); 
+        }
     }
 
     createInput('Libro', 'input1', 'text');
