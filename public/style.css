@@ -673,7 +673,25 @@ body {
   .informationAdapted {
     right: 95px;
   }
-  
+  #signInButton {
+    font-size: .7em;
+    padding: 5px 30px;
+}
+
+#logOutButton {
+    font-size: .7em;
+    padding: 5px 30px;  
+} 
+.add-form {
+  height: 78vh;
+  padding: 15px;
+}
+.label {
+  font-size: .7em;
+}
+.input {
+  font-size: .7em;
+}
 }
 
 @media screen and (max-width: 480px) {
@@ -729,6 +747,7 @@ body {
   .info {
     font-size: 1em;
   }
+
 }
 @media screen and (max-width: 399px) {
     #signInButton {
@@ -787,6 +806,7 @@ body {
       grid-template-columns: repeat(5, minmax(20px, 3fr)) 1fr;
       font-size: .65em;
     }
+    
     .delete-button {
       font-size: .65em;
       width: 2.4em;
@@ -795,7 +815,7 @@ body {
 }
 
 @media screen and (max-width: 355px) {
-    #signInButton {
+ /*    #signInButton {
       font-size: .7em;
       padding: 5px 30px;
   }
@@ -813,7 +833,7 @@ body {
   }
   .input {
     font-size: .7em;
-  }
+  } */
   #cancelButton, #pushBookButton {
     /* font-size: 1em; */
     padding: 4px;
