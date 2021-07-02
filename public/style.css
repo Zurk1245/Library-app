@@ -375,7 +375,7 @@ body {
   display: flex;
   justify-content: space-between;
   text-align: start;
-  font-size: .8em;
+  font-size: .83em;
   font-weight: normal;
 }
 
@@ -426,11 +426,9 @@ body {
 
   #cancelButton, #pushBookButton {
     margin-top: 5px;
-    font-size: 1.24em;
+    font-size: 1.74em;
   }
-  .range {
-    height: 55px;
-  }
+  
   .storeYourDataMessage {
     font-size: .9em;
   }
@@ -457,6 +455,7 @@ body {
 
     .add-form {
       height: 87vh;
+      font-size: .73em;
     }
 
     #toggle {
@@ -569,8 +568,9 @@ body {
 @media screen and (max-width: 800px) {
   .add-form {
     width: 60vw;
-    height: 88vh;
+    height: 60vh;
   }
+
   .informationAdapted {
     right: 200px;
   }
@@ -600,7 +600,11 @@ body {
   }
   .add-form {
     width: 70vw;
-    height: 60vh;
+    height: 71vh;
+  }
+  .input {
+    margin-top: 3px;
+    font-size: .73;
   }
   .delete-button {
     font-size: .7em;
@@ -639,6 +643,9 @@ body {
     .description-row {
       font-size: .65em;
   }
+  .range {
+    height: 40px;
+  }
   #cancelButton, #pushBookButton {
     font-size: 1.3em;
   }
@@ -666,6 +673,7 @@ body {
   .informationAdapted {
     right: 95px;
   }
+  
 }
 
 @media screen and (max-width: 480px) {
@@ -705,10 +713,6 @@ body {
    #cancelButton, #pushBookButton {
      font-size: 1.24em;
    } 
-   
-   .range {
-     height: 50px;
-   }
 }
 @media screen and (max-width: 423px) {
   #books_information_container {
@@ -721,6 +725,9 @@ body {
   .informationAdapted {
     right: 65px;
     width: 68vw;
+  }
+  .info {
+    font-size: 1em;
   }
 }
 @media screen and (max-width: 399px) {
@@ -741,6 +748,9 @@ body {
     right: 65px;
     width: 65vw;
     height: 65vh;
+  }
+  .info {
+    font-size: .9em;
   }
 }
 @media screen and (max-width: 372px) {
