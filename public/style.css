@@ -166,7 +166,7 @@ body {
 .add-form {
     position: fixed;
     width: 40vw;
-    height: 80vh;
+    height: 85vh;
     display: flex;
     align-items: stretch;
     flex-direction: column;
