@@ -765,6 +765,15 @@ body {
   }    
 }
 @media screen and (max-width: 360px) {
+      #signInButton {
+        font-size: .7em;
+        padding: 5px 30px;
+    }
+
+    #logOutButton {
+        font-size: .7em;
+        padding: 5px 30px;  
+    } 
     #books_information_container {
       width: 103%;
       margin: 20px 0px;
@@ -782,5 +791,31 @@ body {
       font-size: .65em;
       width: 2.4em;
       height: 2.6em;
+  }
+}
+
+@media screen and (max-width: 355px) {
+    #signInButton {
+      font-size: .7em;
+      padding: 5px 30px;
+  }
+
+  #logOutButton {
+      font-size: .7em;
+      padding: 5px 30px;  
+  } 
+  .add-form {
+    height: 78vh;
+    padding: 15px;
+  }
+  .label {
+    font-size: .7em;
+  }
+  .input {
+    font-size: .7em;
+  }
+  #cancelButton, #pushBookButton {
+    /* font-size: 1em; */
+    padding: 4px;
   }
 }
