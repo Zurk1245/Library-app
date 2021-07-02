@@ -295,7 +295,6 @@ addBookButton.addEventListener('click', () => {
 
     const slideValue = document.querySelector("span");
     const inputSlider = document.getElementById("input");
-    console.log(width)
 
     inputSlider.oninput = (()=>{
         let value = inputSlider.value;

@@ -674,24 +674,24 @@ body {
     right: 95px;
   }
   #signInButton {
-    font-size: .7em;
-    padding: 5px 30px;
-}
+      font-size: .7em;
+      padding: 5px 30px;
+  }
 
-#logOutButton {
+  #logOutButton {
+      font-size: .7em;
+      padding: 5px 30px;  
+  } 
+  .add-form {
+    height: 80vh;
+    padding: 15px;
+  }
+  .label {
     font-size: .7em;
-    padding: 5px 30px;  
-} 
-.add-form {
-  height: 78vh;
-  padding: 15px;
-}
-.label {
-  font-size: .7em;
-}
-.input {
-  font-size: .7em;
-}
+  }
+  .input {
+    font-size: .7em;
+  }
 }
 
 @media screen and (max-width: 480px) {
@@ -771,6 +771,9 @@ body {
   .info {
     font-size: .9em;
   }
+  #cancelButton, #pushBookButton {
+    padding: 4px;
+  }
 }
 @media screen and (max-width: 372px) {
   #books_information_container {
@@ -800,11 +803,11 @@ body {
     .description-row {
       grid-template-columns: repeat(5, minmax(20px, 3fr)) 1fr;
       font-weight: bold;
-      font-size: .42em;
+      font-size: .3em;
     }
     .row {
       grid-template-columns: repeat(5, minmax(20px, 3fr)) 1fr;
-      font-size: .65em;
+      font-size: .55em;
     }
     
     .delete-button {
@@ -815,27 +818,8 @@ body {
 }
 
 @media screen and (max-width: 355px) {
- /*    #signInButton {
-      font-size: .7em;
-      padding: 5px 30px;
-  }
-
-  #logOutButton {
-      font-size: .7em;
-      padding: 5px 30px;  
-  } 
-  .add-form {
-    height: 78vh;
-    padding: 15px;
-  }
-  .label {
-    font-size: .7em;
-  }
-  .input {
-    font-size: .7em;
-  } */
-  #cancelButton, #pushBookButton {
-    /* font-size: 1em; */
+ 
+ /*  #cancelButton, #pushBookButton {
     padding: 4px;
-  }
+  } */
 }
