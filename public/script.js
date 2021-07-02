@@ -389,14 +389,31 @@ addBookButton.addEventListener('click', () => {
                     slideValue.style.left = (value*21.806) + "%";
                     break;
             }
-        } else if (width <= 405 && width > 200) {
-            console.log('hola')
+        } else if (width <= 405 && width > 390) {
             switch (value) {
                 case '1': 
                     slideValue.style.left = (value*19.08) + "%";
                     break;
                 case '2':
                     slideValue.style.left = (value*21.212) + "%";
+                    break;
+                case '3': 
+                slideValue.style.left = (value*21.9) + "%";
+                    break;   
+                case '4': 
+                slideValue.style.left = (value*21.96) + "%";
+                    break;                           
+                case '5':
+                    slideValue.style.left = (value*21.806) + "%";
+                    break;
+            }
+        } else if (width <= 390) {
+            switch (value) {
+                case '1': 
+                    slideValue.style.left = (value*23.08) + "%";
+                    break;
+                case '2':
+                    slideValue.style.left = (value*22.212) + "%";
                     break;
                 case '3': 
                 slideValue.style.left = (value*21.9) + "%";
