@@ -569,7 +569,7 @@ body {
 @media screen and (max-width: 800px) {
   .add-form {
     width: 60vw;
-    height: 60vh;
+    height: 75vh;
   }
 
   .informationAdapted {
