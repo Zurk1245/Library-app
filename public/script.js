@@ -216,6 +216,9 @@ addBookButton.addEventListener('click', () => {
     formContainer.className = 'form-container';
     body.appendChild(formContainer);
     let addForm = document.createElement('div');
+
+    addForm.id = 'add-form'; //To be used for responsive design only
+
     addForm.className = 'add-form';
     formContainer.appendChild(addForm);
 
@@ -239,10 +242,10 @@ addBookButton.addEventListener('click', () => {
         addForm.appendChild(label);
         addForm.appendChild(input);   
         let br = document.createElement('br');
-        br.id = `br-for-${inputNumber}`;
-        br.className = 'br-add-form';
-        if (width >= 720) {
-            addForm.appendChild(br); 
+        br.id = `br-for-${inputNumber}`;    
+        if (height >= 720) {
+            addForm.appendChild(br);
+            br.className = 'br-add-form';
         }
     }
 
